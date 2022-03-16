@@ -8,13 +8,30 @@ resource "aws_vpc" "sample" {
     }
 }
 
-#resource "aws_subnet" "sample_public_1a" {
-#    vpc_id                  = aws_vpc.sample.id
-#    cidr_block              = "10.0.0.0/24"
-#    map_public_ip_on_launch = true
-#    availability_zone       = "ap-northeast-1a"
-#}
-#
+resource "aws_subnet" "sample_public" {
+    count = length(local.availability_zone_ids)
+    vpc_id = aws_vpc.sample.id
+
+    cidr_block = cidrsubnet(aws_vpc.sample.cidr_block, 3, 0 + count.index*2)
+    availability_zone = data.aws_availability_zone.availables[count.index].name
+
+    tags = {
+        Name = "sample-public-subnet-${data.aws_availability_zone.availables[count.index].name_suffix}"
+    }
+}
+
+resource "aws_subnet" "sample_private" {
+    count = length(local.availability_zone_ids)
+    vpc_id = aws_vpc.sample.id
+
+    cidr_block = cidrsubnet(aws_vpc.sample.cidr_block, 3, 1 + 2*count.index)
+    availability_zone = data.aws_availability_zone.availables[count.index].name
+
+    tags = {
+        Name = "sample-private-subnet-${data.aws_availability_zone.availables[count.index].name_suffix}"
+    }
+}
+
 #resource "aws_internet_gateway" "sample_public_1a_igw" {
 #    vpc_id = aws_vpc.sample.id
 #}
