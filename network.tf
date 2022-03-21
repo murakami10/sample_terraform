@@ -88,7 +88,6 @@ resource "aws_route" "sample_private" {
   destination_cidr_block = "0.0.0.0/0"
 }
 
-
 resource "aws_route_table_association" "sample_private" {
   count          = length(local.availability_zone_ids)
   subnet_id      = aws_subnet.sample_private[count.index].id
