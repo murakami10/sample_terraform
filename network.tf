@@ -65,32 +65,32 @@ resource "aws_route_table" "sample_public" {
 }
 
 resource "aws_route" "sample_public" {
-  route_table_id = aws_route_table.sample_public.id
-  gateway_id = aws_internet_gateway.sample_igw.id
+  route_table_id         = aws_route_table.sample_public.id
+  gateway_id             = aws_internet_gateway.sample_igw.id
   destination_cidr_block = "0.0.0.0/0"
 }
 
 resource "aws_route_table_association" "sample_public" {
-  count         = length(local.availability_zone_ids)
-  subnet_id = aws_subnet.sample_public[count.index].id
+  count          = length(local.availability_zone_ids)
+  subnet_id      = aws_subnet.sample_public[count.index].id
   route_table_id = aws_route_table.sample_public.id
 }
 
 resource "aws_route_table" "sample_private" {
-  count         = length(local.availability_zone_ids)
+  count  = length(local.availability_zone_ids)
   vpc_id = aws_vpc.sample.id
 }
 
 resource "aws_route" "sample_private" {
-  count         = length(local.availability_zone_ids)
-  route_table_id = aws_route_table.sample_private[count.index].id
-  nat_gateway_id = aws_nat_gateway.sample_ngw[count.index].id
+  count                  = length(local.availability_zone_ids)
+  route_table_id         = aws_route_table.sample_private[count.index].id
+  nat_gateway_id         = aws_nat_gateway.sample_ngw[count.index].id
   destination_cidr_block = "0.0.0.0/0"
 }
 
 
 resource "aws_route_table_association" "sample_private" {
-  count = length(local.availability_zone_ids)
-  subnet_id = aws_subnet.sample_private[count.index].id
+  count          = length(local.availability_zone_ids)
+  subnet_id      = aws_subnet.sample_private[count.index].id
   route_table_id = aws_route_table.sample_private[count.index].id
 }
