@@ -64,9 +64,9 @@ resource "aws_security_group_rule" "sample_elb_egress" {
 }
 
 resource "aws_security_group" "sample_private" {
-  name = "sample-private"
+  name        = "sample-private"
   description = "for private subnet server"
-  vpc_id = aws_vpc.sample.id
+  vpc_id      = aws_vpc.sample.id
   tags = {
     Name = "sample-private"
   }

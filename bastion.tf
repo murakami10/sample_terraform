@@ -1,7 +1,7 @@
 
 data "aws_ami" "sample" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
@@ -10,19 +10,19 @@ data "aws_ami" "sample" {
 }
 
 resource "aws_instance" "sample-bastion" {
-    ami           = data.aws_ami.sample.id
-    instance_type = "t2.micro"
-    key_name      = aws_key_pair.sample.key_name
+  ami           = data.aws_ami.sample.id
+  instance_type = "t2.micro"
+  key_name      = aws_key_pair.sample.key_name
 
-    subnet_id              = aws_subnet.sample_public[0].id
-    vpc_security_group_ids = [aws_security_group.sample_bastion.id]
+  subnet_id              = aws_subnet.sample_public[0].id
+  vpc_security_group_ids = [aws_security_group.sample_bastion.id]
 
-    tags = {
-        Name = "sample-bastion"
-    }
+  tags = {
+    Name = "sample-bastion"
+  }
 }
 
 resource "aws_eip" "sample" {
-    instance = aws_instance.sample-bastion.id
-    vpc      = true
+  instance = aws_instance.sample-bastion.id
+  vpc      = true
 }

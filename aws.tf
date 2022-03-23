@@ -2,7 +2,7 @@ locals {
   availability_zone_ids = [
     "apne1-az1",
     "apne1-az2",
-#    "apne1-az4",
+    #    "apne1-az4",
   ]
 }
 
