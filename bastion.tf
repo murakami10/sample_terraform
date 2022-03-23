@@ -26,12 +26,3 @@ resource "aws_eip" "sample" {
     instance = aws_instance.sample-bastion.id
     vpc      = true
 }
-
-resource "aws_key_pair" "sample" {
-  key_name   = "sample-temp-key"
-  public_key = file(".key/terraform-sample.pub")
-  tags = {
-    Name = "sample"
-  }
-}
-
