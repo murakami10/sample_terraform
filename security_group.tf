@@ -27,6 +27,7 @@ resource "aws_security_group_rule" "sample_bastion_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+
 resource "aws_security_group" "sample_elb" {
   name        = "sample-elb"
   description = "for bastion server"
@@ -54,15 +55,6 @@ resource "aws_security_group_rule" "sample_elb_https" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "sample_elb_egress" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  security_group_id = aws_security_group.sample_elb.id
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
 resource "aws_security_group" "sample_private" {
   name        = "sample-private"
   description = "for private subnet server"
@@ -81,11 +73,3 @@ resource "aws_security_group_rule" "sample_private_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "sample_private_egress" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  security_group_id = aws_security_group.sample_private.id
-  cidr_blocks       = ["0.0.0.0/0"]
-}
