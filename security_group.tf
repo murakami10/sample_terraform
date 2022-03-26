@@ -73,3 +73,20 @@ resource "aws_security_group_rule" "sample_private_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group" "sample_rds" {
+  name        = "sample-rds"
+  description = "for rds"
+  vpc_id      = aws_vpc.sample.id
+  tags = {
+    Name = "sample-rds"
+  }
+}
+
+resource "aws_security_group_rule" "sample_rds_ingress" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  security_group_id = aws_security_group.sample_rds.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
