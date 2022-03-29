@@ -9,6 +9,11 @@ data "aws_ami" "sample-web-server" {
   }
 }
 
+resource "aws_iam_instance_profile" "sample" {
+  name = "sample-profile"
+  role = aws_iam_role.sample-ec2-s3.name
+}
+
 resource "aws_instance" "sample-web-server" {
   count                  = length(local.availability_zone_ids)
   ami                    = data.aws_ami.sample.id
@@ -16,6 +21,7 @@ resource "aws_instance" "sample-web-server" {
   key_name               = aws_key_pair.sample.key_name
   subnet_id              = aws_subnet.sample_private[count.index].id
   vpc_security_group_ids = [aws_security_group.sample_private.id]
+  iam_instance_profile   = aws_iam_instance_profile.sample.name
 
   user_data = <<EOF
     #!/bin/bash
