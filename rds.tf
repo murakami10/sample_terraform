@@ -117,12 +117,15 @@ resource "aws_rds_cluster" "sample" {
   master_password           = "dummydummydummydummy"
 
   // 利用者の少ない土曜日深夜に設定
-  preferred_maintenance_window    = "sat:16:30-sat:17:30" // sun 01:30-02:30 JST
+#  preferred_maintenance_window    = "sat:16:30-sat:17:30" // sun 01:30-02:30 JST
   storage_encrypted               = true
   vpc_security_group_ids          = [aws_security_group.sample_rds.id]
   db_subnet_group_name            = aws_db_subnet_group.sample.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.sample.name
   enabled_cloudwatch_logs_exports = ["error", "slowquery"]
+  backup_retention_period = 1
+  skip_final_snapshot     = true
+  apply_immediately       = true
 
   tags = {
     Name = "sample"

@@ -22,7 +22,7 @@ resource "aws_instance" "sample-bastion" {
   }
 }
 
-resource "aws_eip" "sample" {
+resource "aws_eip" "sample_bastion" {
   instance = aws_instance.sample-bastion.id
   vpc      = true
 }

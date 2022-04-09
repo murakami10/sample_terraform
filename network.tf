@@ -59,7 +59,7 @@ resource "aws_subnet" "sample_private" {
   }
 }
 
-resource "aws_eip" "sample_eip" {
+resource "aws_eip" "sample_nat_gateway" {
   count = length(local.availability_zone_ids)
   vpc   = true
   tags = {
@@ -70,7 +70,7 @@ resource "aws_eip" "sample_eip" {
 resource "aws_nat_gateway" "sample_ngw" {
   count         = length(local.availability_zone_ids)
   subnet_id     = aws_subnet.sample_public[count.index].id
-  allocation_id = aws_eip.sample_eip[count.index].id
+  allocation_id = aws_eip.sample_nat_gateway[count.index].id
 
   tags = {
     Name = "sample-ngw-${data.aws_availability_zone.availables[count.index].name_suffix}"
